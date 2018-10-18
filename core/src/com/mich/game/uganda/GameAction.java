@@ -11,7 +11,7 @@ public class GameAction {
     // Предполагается, что поле это квадрат 3Х3, 4Х4 и т.п. то есть размер = 9, 16, 25
     int correctAnswer; // число от 1 до playfieldSize
     int[][] sequence; // массив самой отгадываемой последовательности. Генерится перед каждым левелом. [element's number][one element]
-    int[][] playingSequence // массив предлагаемых к выбору ответов [playfieldSize][numSequences]
+    int[][] playingSequence; // массив предлагаемых к выбору ответов [playfieldSize][numSequences]
     // - один из элементов должен быть
     int[] points; // очки, получаемые за отгаданные элементы: за один, за последовательный 2-ой, 3-ий и т.д.
     int currentElement; // номер текущего (отгадываемого) элемента
