@@ -1,1 +1,5 @@
-include 'desktop', 'android', 'core'
+include 'common-gdx' 
+
+include 'core'
+include 'desktop'
+include 'android'
