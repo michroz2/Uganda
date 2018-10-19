@@ -1,4 +1,4 @@
-package com.mich.common.gdx.api.screen;
+package com.mich.common.gdx.screen;
 
 public interface ScreenApi {
 

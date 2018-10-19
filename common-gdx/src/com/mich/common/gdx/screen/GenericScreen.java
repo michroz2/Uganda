@@ -1,4 +1,4 @@
-package com.mich.common.gdx.api.screen;
+package com.mich.common.gdx.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;

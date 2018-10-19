@@ -127,7 +127,7 @@ task run(type: Exec) {
 // sets up the Android Idea project, using the old Ant based build.
 idea {
     module {
-        sourceDirs += file("src");
+        sourceDirs += file("src")
         scopes = [ COMPILE: [plus:[project.configurations.compile]]]        
 
         iml {

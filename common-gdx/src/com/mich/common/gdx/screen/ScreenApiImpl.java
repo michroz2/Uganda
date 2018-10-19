@@ -1,4 +1,4 @@
-package com.mich.common.gdx.api.screen;
+package com.mich.common.gdx.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -35,6 +35,7 @@ public class ScreenApiImpl extends AppHandler implements ScreenApi, Renderable {
         try {
             Screen screen = ClassReflection.newInstance(type);
             root.addActor(screen.getRoot());
+            screen.show();
         } catch (ReflectionException e) {
             e.printStackTrace();
         }

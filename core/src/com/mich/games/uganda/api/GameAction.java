@@ -1,4 +1,4 @@
-package com.mich.game.uganda;
+package com.mich.games.uganda.api;
 
 import com.sun.istack.internal.NotNull;
 
