@@ -1,6 +1,5 @@
 package com.mich.games.uganda.api;
 
-import com.sun.istack.internal.NotNull;
 
 public class GameAction {
     int level;
@@ -20,15 +19,15 @@ public class GameAction {
 
     }
 
-    public void startLevel(@NotNull int level) {
+    public void startLevel(int level) {
 
     }
 
-    public void makeMove(@NotNull int move) {
+    public void makeMove(int move) {
 
     }
 
-    void generateLevel(@NotNull int level) {
+    void generateLevel(int level) {
 
     }
 
