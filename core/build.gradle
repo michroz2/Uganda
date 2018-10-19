@@ -10,5 +10,6 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 
 dependencies {
     compile project(path: ':common-gdx')
+    implementation 'junit:junit:4.12'
 }
 
