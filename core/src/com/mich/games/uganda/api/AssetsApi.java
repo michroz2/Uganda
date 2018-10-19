@@ -1,4 +1,4 @@
-package com.mich.common.gdx.api;
+package com.mich.games.uganda.api;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
@@ -18,20 +18,20 @@ public class AssetsApi {
 
         manager.setLoader(Texture.class, new TextureLoader(resolver));
 
-        loadTexture("badlogic.jpg");
+//        loadTexture("badlogic.jpg");
+//        manager.finishLoading();
 
 
     }
 
     public void loadTexture(String name) {
-        manager.load(name, Texture.class );
-
+        manager.load(name, Texture.class);
 
 
     }
 
-    public <T> T get(String name, Class<T> type) {
-        return manager.get(name, type);
+    public Texture getTexture(String name) {
+        return manager.get(name, Texture.class);
     }
 
 
