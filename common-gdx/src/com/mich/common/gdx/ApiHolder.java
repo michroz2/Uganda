@@ -6,12 +6,11 @@ import com.badlogic.gdx.utils.SnapshotArray;
 /**
  * Holder for unique objects such as APIs and Managers
  */
-public class ApiHolder implements AppListener, Renderable {
+public class ApiHolder implements AppListener, Renderable, InitListener {
 
-    private ObjectMap<Class<?>, Object> map = new ObjectMap<Class<?>, Object>(64);
-
-    private SnapshotArray<Object> appListeners = new SnapshotArray<Object>(50);
-    SnapshotArray<Renderable> renderers = new SnapshotArray<Renderable>(Renderable.class);
+    SnapshotArray<Renderable> renderers = new SnapshotArray<>(Renderable.class);
+    private ObjectMap<Class<?>, Object> map = new ObjectMap<>(64);
+    private SnapshotArray<Object> listeners = new SnapshotArray<>(50);
 
 
     @SuppressWarnings("unchecked")
@@ -44,11 +43,10 @@ public class ApiHolder implements AppListener, Renderable {
         return map.containsKey(key);
     }
 
-
     @Override
     public void create() {
-        Object[] items = appListeners.begin();
-        for (int i = 0, n = appListeners.size; i < n; i++) {
+        Object[] items = listeners.begin();
+        for (int i = 0, n = listeners.size; i < n; i++) {
             try {
                 Object item = items[i];
                 if (item instanceof AppListener) {
@@ -58,75 +56,77 @@ public class ApiHolder implements AppListener, Renderable {
                 e.printStackTrace();
             }
         }
-        appListeners.end();
+        listeners.end();
     }
 
     @Override
     public void resize(int width, int height) {
-        Object[] items = appListeners.begin();
-        for (int i = 0, n = appListeners.size; i < n; i++) {
+        Object[] items = listeners.begin();
+        for (int i = 0, n = listeners.size; i < n; i++) {
             Object item = items[i];
             if (item instanceof AppListener) {
                 ((AppListener) item).resize(width, height);
             }
         }
-        appListeners.end();
+        listeners.end();
     }
 
     @Override
     public void pause() {
-        Object[] items = appListeners.begin();
-        for (int i = 0, n = appListeners.size; i < n; i++) {
+        Object[] items = listeners.begin();
+        for (int i = 0, n = listeners.size; i < n; i++) {
             Object item = items[i];
             if (item instanceof AppListener) {
                 ((AppListener) item).pause();
             }
         }
-        appListeners.end();
+        listeners.end();
     }
 
     @Override
     public void resume() {
-        Object[] items = appListeners.begin();
-        for (int i = 0, n = appListeners.size; i < n; i++) {
+        Object[] items = listeners.begin();
+        for (int i = 0, n = listeners.size; i < n; i++) {
             Object item = items[i];
             if (item instanceof AppListener) {
                 ((AppListener) item).resume();
             }
         }
-        appListeners.end();
+        listeners.end();
     }
 
 
     @Override
     public void dispose() {
-        Object[] items = appListeners.begin();
-        for (int i = 0, n = appListeners.size; i < n; i++) {
+        Object[] items = listeners.begin();
+        for (int i = 0, n = listeners.size; i < n; i++) {
             Object item = items[i];
             if (item instanceof AppListener) {
                 ((AppListener) item).dispose();
             }
 
         }
-        appListeners.end();
+        listeners.end();
         destroy();
     }
 
     void destroy() {
         map.clear();
-        appListeners.clear();
+        listeners.clear();
 
     }
 
     <T> void addListener(T value) {
-        if (value instanceof AppListener) {
-            appListeners.add(value);
+        if (value instanceof AppListener || value instanceof InitListener) {
+            listeners.add(value);
         }
+
+
     }
 
     private <T> void removeListener(T value) {
-        if (value instanceof AppListener) {
-            appListeners.removeValue(value, true);
+        if (value instanceof AppListener || value instanceof InitListener) {
+            listeners.removeValue(value, true);
         }
     }
 
@@ -137,5 +137,19 @@ public class ApiHolder implements AppListener, Renderable {
             items[i].render(delta);
         }
         renderers.end();
+    }
+
+    @Override
+    public void init() {
+        Object[] items = listeners.begin();
+
+        for (int i = 0, n = listeners.size; i < n; i++) {
+            Object item = items[i];
+
+            if (item instanceof InitListener) {
+                ((InitListener) item).init();
+            }
+        }
+        listeners.end();
     }
 }

@@ -57,6 +57,10 @@ public class App extends ApplicationAdapter {
         return apiHolder.get(key);
     }
 
+    public static void init() {
+        apiHolder.init();
+    }
+
 
 
 
