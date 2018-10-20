@@ -3,3 +3,6 @@ include 'common-gdx'
 include 'core'
 include 'desktop'
 include 'android'
+
+
+include 'resources'
