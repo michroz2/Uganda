@@ -1,0 +1,38 @@
+apply plugin: "java"
+
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        jcenter()
+
+    }
+    dependencies {
+        classpath "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+    }
+}
+
+sourceCompatibility = 1.7
+
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+sourceSets.main.java.srcDirs = ["src/"]
+
+
+
+task texturePacker(type: JavaExec) {
+    main = 'com.mich.tools.ResourcePacker'
+    classpath = sourceSets.main.runtimeClasspath
+
+    args "${projectDir}/raw"
+    args "${projectDir}/assets"
+    args "atlas"
+
+}
+
+dependencies {
+     compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+}
+
