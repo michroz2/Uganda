@@ -12,7 +12,6 @@ public class GameAction {
     int showSize;
     int playfieldSize;
     int correctAnswer;
-    int[][] sequence;
     int[][] mainSequence;
     int mainSequenceSize;
     int[][] playingSequence;
@@ -38,11 +37,10 @@ public class GameAction {
             sequenceSize[i] = getSequenceSizeByLevel(level, i);
         }
         mainSequenceSize = calcMainSequenceSize(sequenceSize);
-        sequence = new int[numSequences][mainSequenceSize];
+        mainSequence = new int[numSequences][mainSequenceSize];
         for (int i = 0; i < numSequences; i++) {
-            sequence[i] = createSingleSequence(sequenceSize[i], mainSequenceSize);
+            mainSequence[i] = createSingleSequence(sequenceSize[i], mainSequenceSize);
         }
-        int a = 10;
     }
 
     int calcMainSequenceSize(int array[]) { // returns lcm of the array of int values
