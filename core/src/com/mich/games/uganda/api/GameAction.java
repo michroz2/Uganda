@@ -50,10 +50,10 @@ public class GameAction {
     }
 
     void createLevel(int level) {
-        numSequences = getNumSequencesByLevel(level);
+        numSequences = NumSequencesByLevel(level);
         sequenceSize = new int[numSequences];
         for (int i = 0; i < numSequences; i++) {
-            sequenceSize[i] = getSequenceSizeByLevel(level, i);
+            sequenceSize[i] = SequenceSizeByLevel(level, i);
         }
         mainSequenceSize = calcMainSequenceSize(sequenceSize);
         mainSequence = new int[numSequences][mainSequenceSize];
@@ -101,10 +101,9 @@ public class GameAction {
             points[currentMove] = 0;
             luckyStreak = 0;
         }
-        if (currentMove == maxMove) {
+        if (++currentMove == maxMove) {
             levelComplete = true;
         } else {
-            currentMove++;
             createMove(currentMove);
         }
         return result;
@@ -123,7 +122,22 @@ public class GameAction {
     public int[] getElement(int num) {
         int result[] = new int[numSequences];
         for (int i = 0; i < numSequences; i++) {
-            result[i] = mainSequence[i][num];
+            result[i] = mainSequence[i][(num % mainSequenceSize)]; // на случай если num будет номером хода > чем длина последовательности
+        }
+        return result;
+    }
+
+    /**
+     * @param num - номер в диапазоне от 0 до playfieldSize
+     * @return - один "поперечный" элемент из playfieldSequence размерности numSequences, то есть:
+     * по одному числу из всех отдельных последовательностей.
+     * цель метода - удобство отрисовки элементов игры
+     * это практически копия метода getElement -
+     */
+    public int[] getPlayElement(int num) {
+        int result[] = new int[numSequences];
+        for (int i = 0; i < numSequences; i++) {
+            result[i] = playfieldSequence[i][num];
         }
         return result;
     }
@@ -151,12 +165,12 @@ public class GameAction {
         for (int i = 0; i < numSequences; i++) {
             for (int j = 0; j < playfieldSize; j++) { // fill playfield with correct and incorrect elements
                 if (j == correctPosition) { // put correct element to correct place
-                    playfieldSequence[i][correctPosition] = mainSequence[i][move];
+                    playfieldSequence[i][correctPosition] = mainSequence[i][move % mainSequenceSize]; // move может быть больше длины последовательности
                 } else {  // put incorrect elements to incorrect places
                     do {
                         incorrectElement = rand.nextInt(mainSequenceSize);
                     }
-                    while (incorrectElement == move);
+                    while (incorrectElement == (move % mainSequenceSize)); // move может быть больше длины последовательности
                     playfieldSequence[i][j] = mainSequence[i][incorrectElement];
                 }
             }
@@ -212,8 +226,8 @@ public class GameAction {
      * @param level
      * @return задаёт количество отдельных последовательностей исходя из уровня всегда >=1 и увеличивается.
      */
-    int getNumSequencesByLevel(int level) {
-        return (level / 5) + 1;
+    int NumSequencesByLevel(int level) {
+        return (level / 3) + 1;
     }
 
     /**
@@ -221,8 +235,8 @@ public class GameAction {
      * @param sequenceNumber - номер отдельной последовательности
      * @return задаёт длину конкретной отдельной последовательности исходя из уровня
      */
-    int getSequenceSizeByLevel(int level, int sequenceNumber) {
-        return (level % 5) + (level / 5) + 1 + sequenceNumber;
+    int SequenceSizeByLevel(int level, int sequenceNumber) {
+        return (level % 3) + (level / 5) + 2 + sequenceNumber;
     }
 
     public int[] getSequenceSize() {
