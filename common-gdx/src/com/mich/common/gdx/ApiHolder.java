@@ -8,9 +8,11 @@ import com.badlogic.gdx.utils.SnapshotArray;
  */
 public class ApiHolder implements AppListener, Renderable, InitListener {
 
-    SnapshotArray<Renderable> renderers = new SnapshotArray<>(Renderable.class);
-    private ObjectMap<Class<?>, Object> map = new ObjectMap<>(64);
-    private SnapshotArray<Object> listeners = new SnapshotArray<>(50);
+    private static final String TAG = "ApiHolder";
+
+    SnapshotArray<Renderable> renderers = new SnapshotArray<Renderable>(Renderable.class);
+    private ObjectMap<Class<?>, Object> map = new ObjectMap<Class<?>, Object>(64);
+    private SnapshotArray<Object> listeners = new SnapshotArray<Object>(50);
 
 
     @SuppressWarnings("unchecked")
@@ -145,7 +147,7 @@ public class ApiHolder implements AppListener, Renderable, InitListener {
 
         for (int i = 0, n = listeners.size; i < n; i++) {
             Object item = items[i];
-
+            Log.debug(TAG, "init - " + item.getClass().getSimpleName());
             if (item instanceof InitListener) {
                 ((InitListener) item).init();
             }

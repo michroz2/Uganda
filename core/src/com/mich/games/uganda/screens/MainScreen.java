@@ -14,12 +14,12 @@ public class MainScreen extends GenericScreen {
 
     public MainScreen() {
 
-        Texture texture = assetsApi.getTexture("badlogic.jpg");
-
-        final Image img = new Image(texture);
-        addActor(img);
-
-        img.addAction(Actions.forever(Actions.sequence(Actions.fadeOut(.5f), Actions.fadeIn(.5f))));
+//        Texture texture = assetsApi.getTexture("badlogic.jpg");
+//
+//        final Image img = new Image(texture);
+//        addActor(img);
+//
+//        img.addAction(Actions.forever(Actions.sequence(Actions.fadeOut(.5f), Actions.fadeIn(.5f))));
 
 
     }

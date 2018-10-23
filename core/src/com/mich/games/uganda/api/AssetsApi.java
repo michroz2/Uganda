@@ -22,10 +22,10 @@ public class AssetsApi implements InitListener, Renderable {
 
         manager.setLoader(Texture.class, new TextureLoader(resolver));
 
-        loadTexture("badlogic.jpg");
-
-
-        manager.finishLoading(); // fixme:
+//        loadTexture("badlogic.jpg");
+//
+//
+//        manager.finishLoading(); // fixme:
     }
 
     @Override
