@@ -3,6 +3,20 @@ package com.mich.games.uganda.api;
 
 import java.util.Random;
 
+/**
+ * Класс игровой логики.
+ * Как предполагается будет идти геймплэй:
+ * 1) Создаётся объект GameAction - при этом инициализируются элементы игры.
+ * 2) Интерфейс игры обращается к элементам GameAction для получения и отрисовки:
+ * а) отработанной "головы" последовательности, длина которой сначала равна 0, потом увеличивается
+ * (тут надо ещё подумать какое максимальное число элементов головы показывать - лучше всю, конечно. Этой логики нет в GameAction)
+ * б) игрового поля - некого playfieldSize количества вариантов ответов, один из которых правильный
+ * 3) Игрок производит "ход" - выбирая один из вариантов ответов
+ * 4) Вызывается метод makeMove, который определяет результат, очки и всё пересчитывает для следующего хода
+ * 5) Интерфейс игры опрашивает результат, очки, отрисовывает,
+ * узнаёт не закончился ли уровень (возможно есть отдельный контрол, типа "next")
+ * 6) игра готова к следующему ходу на этом уровне или первому ходу на следующем уровне.
+ */
 public class GameAction {
     int[] sequenceSize;
     int numSequences;
@@ -27,9 +41,10 @@ public class GameAction {
      * @param level       - для возможности продолжения игры после Save
      * @param pointsTotal - для возможности продолжения игры после Save
      */
-    public GameAction(int level, int pointsTotal) {
+    public GameAction(int level, int pointsTotal, int playfieldSize) {
         this.level = level;
         this.pointsTotal = pointsTotal;
+        this.playfieldSize = playfieldSize;
         rand = new Random();
         createLevel(level);
     }
@@ -53,6 +68,11 @@ public class GameAction {
         levelComplete = false;
         luckyStreak = 0;
         createMove(0);
+    }
+
+    void nextLevel() {
+        level++;
+        createLevel(level);
     }
 
     /**
