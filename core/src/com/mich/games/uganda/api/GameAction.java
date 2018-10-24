@@ -18,6 +18,71 @@ import java.util.Random;
  * 6) игра готова к следующему ходу на этом уровне или первому ходу на следующем уровне.
  */
 public class GameAction {
+    /*private static*/ int sequenceSizeByLevel[][] = {
+            {2},
+            {3},
+            {4},
+            {4, 2},
+            {5},
+            {3, 2},
+            {6},
+            {6, 2},
+            {6, 3},
+            {6, 3, 2},
+            {7},
+            {5, 2},
+            {4, 3},
+            {4, 3, 2},
+            {6, 4},
+            {6, 4, 2},
+            {6, 4, 3},
+            {6, 4, 3, 2},
+            {7, 2},
+            {5, 3},
+            {5, 4},
+            {5, 4, 2},
+            {7, 3},
+            {7, 4},
+            {7, 4, 2},
+            {5, 3, 2},
+            {6, 5},
+            {6, 5, 2},
+            {6, 5, 3},
+            {6, 5, 3, 2},
+            {7, 5},
+            {7, 3, 2},
+            {7, 6},
+            {7, 6, 2},
+            {7, 6, 3},
+            {7, 6, 3, 2},
+            {5, 4, 3},
+            {5, 4, 3, 2},
+            {6, 5, 4},
+            {6, 5, 4, 2},
+            {6, 5, 4, 3},
+            {6, 5, 4, 3, 2},
+            {7, 5, 2},
+            {7, 4, 3},
+            {7, 4, 3, 2},
+            {7, 6, 4},
+            {7, 6, 4, 2},
+            {7, 6, 4, 3},
+            {7, 6, 4, 3, 2},
+            {7, 5, 3},
+            {7, 5, 4},
+            {7, 5, 4, 2},
+            {7, 5, 3, 2},
+            {7, 6, 5},
+            {7, 6, 5, 2},
+            {7, 6, 5, 3},
+            {7, 6, 5, 3, 2},
+            {7, 5, 4, 3},
+            {7, 5, 4, 3, 2},
+            {7, 6, 5, 4},
+            {7, 6, 5, 4, 2},
+            {7, 6, 5, 4, 3},
+            {7, 6, 5, 4, 3, 2}
+    };
     int[] sequenceSize;
     int numSequences;
     int playfieldSize;
@@ -31,7 +96,9 @@ public class GameAction {
     int luckyStreak;
     int currentMove;
     int maxMove;
-    private int level;
+    int maxLevels;
+    int maxSequenceSize;
+    int level;
     private boolean levelComplete;
     private Random rand;
 
@@ -45,34 +112,37 @@ public class GameAction {
         this.level = level;
         this.pointsTotal = pointsTotal;
         this.playfieldSize = playfieldSize;
+        maxLevels = sequenceSizeByLevel.length;
         rand = new Random();
         createLevel(level);
     }
 
     void createLevel(int level) {
-        numSequences = NumSequencesByLevel(level);
+        numSequences = numSequencesByLevel(level);
         sequenceSize = new int[numSequences];
         for (int i = 0; i < numSequences; i++) {
-            sequenceSize[i] = SequenceSizeByLevel(level, i);
+            sequenceSize[i] = sequenceSizeByLevel(level, i);
         }
         mainSequenceSize = calcMainSequenceSize(sequenceSize);
         mainSequence = new int[numSequences][mainSequenceSize];
         for (int i = 0; i < numSequences; i++) {
             mainSequence[i] = createSingleSequence(sequenceSize[i], mainSequenceSize);
         }
-        // set variables for start of level:
+        // set necessary and useful variables for this of level:
         currentMove = 0;
         maxMove = 3 * mainSequenceSize; // максимальное количество ходов для этого уровня, чтобы  уровень не тянулся бесконечно
         points = new int[maxMove];
         pointsLevel = 0;
         levelComplete = false;
         luckyStreak = 0;
+        maxSequenceSize = maxSequenceSizeByLevel(level);
         createMove(0);
     }
 
     void nextLevel() {
-        level++;
-        createLevel(level);
+        if (++level < maxLevels) {
+            createLevel(level);
+        }
     }
 
     /**
@@ -226,8 +296,8 @@ public class GameAction {
      * @param level
      * @return задаёт количество отдельных последовательностей исходя из уровня всегда >=1 и увеличивается.
      */
-    int NumSequencesByLevel(int level) {
-        return (level / 3) + 1;
+    int numSequencesByLevel(int level) {
+        return sequenceSizeByLevel[level].length;
     }
 
     /**
@@ -235,8 +305,16 @@ public class GameAction {
      * @param sequenceNumber - номер отдельной последовательности
      * @return задаёт длину конкретной отдельной последовательности исходя из уровня
      */
-    int SequenceSizeByLevel(int level, int sequenceNumber) {
-        return (level % 3) + (level / 5) + 2 + sequenceNumber;
+    int sequenceSizeByLevel(int level, int sequenceNumber) {
+        return sequenceSizeByLevel[level][sequenceNumber];
+    }
+
+    int maxSequenceSizeByLevel(int level) {
+        int max = 0;
+        for (int i = 0; i < numSequencesByLevel(level); i++) {
+            max = (max >= sequenceSizeByLevel(level, i)) ? max : sequenceSizeByLevel(level, i);
+        }
+        return max;
     }
 
     public int[] getSequenceSize() {
@@ -264,4 +342,17 @@ public class GameAction {
     public int getCurrentMove() {
         return currentMove;
     }
+
+    public int getMaxLevels() {
+        return maxLevels;
+    }
+
+    public int getMaxSequenceSize() {
+        return maxSequenceSize;
+    }
+
+    public int getLevel() {
+        return level;
+    }
 }
+
