@@ -131,7 +131,7 @@ public class GameActionTest extends TestCase {
             while (!gameAction.isLevelComplete()) {
                 // В реальной игре тут отрисовывается красивое игровое поле согласно текущим данным объекта gameAction
                 int curMove = gameAction.getCurrentMove();
-                int maxSequence = gameAction.getMaxSequenceSize();
+                int maxSequence = gameAction.getMaxHeadSize();
                 int startHead = (curMove > maxSequence) ? curMove - maxSequence : 0;
 
                 System.out.print("Known head of the sequence");  // Сначала рисуем последний кусок отработанной "головы" последовательности:

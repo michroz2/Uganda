@@ -86,8 +86,11 @@ public class GameAction {
     int[] sequenceSize;
     int numSequences;
     int playfieldSize;
-    int correctPosition;
+    public int correctPosition;
     int[][] mainSequence;
+    public int getMainSequenceSize() {
+        return mainSequenceSize;
+    }
     int mainSequenceSize;
     int[][] playfieldSequence;
     int[] points;
@@ -117,7 +120,8 @@ public class GameAction {
         createLevel(level);
     }
 
-    void createLevel(int level) {
+    public void createLevel(int level) {
+        this.level = level;
         numSequences = numSequencesByLevel(level);
         sequenceSize = new int[numSequences];
         for (int i = 0; i < numSequences; i++) {
@@ -139,7 +143,7 @@ public class GameAction {
         createMove(0);
     }
 
-    void nextLevel() {
+    public void nextLevel() {
         if (++level < maxLevels) {
             createLevel(level);
         }
@@ -347,7 +351,7 @@ public class GameAction {
         return maxLevels;
     }
 
-    public int getMaxSequenceSize() {
+    public int getMaxHeadSize() {
         return maxSequenceSize;
     }
 
