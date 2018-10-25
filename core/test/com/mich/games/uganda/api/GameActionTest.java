@@ -59,6 +59,7 @@ public class GameActionTest extends TestCase {
 
     }
 
+
     @Test
     public void testPlayOneLevelRandomAuto() { // Play one level in console
         int level = 7;
